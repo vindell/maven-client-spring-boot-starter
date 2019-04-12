@@ -1,0 +1,83 @@
+maven:
+  settings:
+    # 当Maven验证构件校验文件失败时该怎么做-ignore（忽略），fail（失败），或者warn（警告）。
+    checksum-policy: warn
+    # 连接超时时间
+    connect-timeout: 1000000
+    # 本地Maven仓库
+    local-repository: E:\Java\.m2\repository
+    # 是否离线模式
+    offline: false
+    proxy:      auth:        username: proxyuser
+        password: proxypass
+      host: proxy.host.net
+      non-proxy-hosts: local.net,some.host.com
+      port: 80
+      protocol: http
+    # 远程仓库地址
+    remote-repositories:
+      '[maven-releases]' : 
+          url ： http://localhost:8081/repository/maven-releases/
+      '[maven-snapshots]' :  
+          url ：http://localhost:8081/repository/maven-snapshots/      '[Aliyun]' :  
+          url ：http://maven.aliyun.com/nexus/content/groups/public
+      '[Apache-Releases]' :  
+          url ：https://repository.apache.org/content/repositories/releases
+      '[Atlassian]' : 
+          url ：https://maven.atlassian.com/content/repositories/atlassian-public/ 
+      '[Atlassian-3rd-P-Old]' : 
+          url ：https://maven.atlassian.com/3rdparty/
+      '[Atlassian-Packages]' : 
+          url ：https://packages.atlassian.com/maven-public/
+      '[BeDataDriven]' : 
+          url ：https://nexus.bedatadriven.com/content/repositories/public/
+      '[Clojars]' : 
+          url ：http://clojars.org/repo/
+      '[Geomajas]' : 
+          url ：http://maven.geomajas.org/
+      '[Hortonworks]' : 
+          url ：http://localhost:8081/repository/Hortonworks/
+      '[IBiblio]' : 
+          url ：http://maven.ibiblio.org/maven2/
+      '[JBoss]' : 
+          url ：http://repository.jboss.org/nexus/content/groups/public/
+      '[JBoss-Releases]' : 
+          url ：https://repository.jboss.org/nexus/content/repositories/releases/
+      '[JBoss-EA]' : 
+          url ：https://repository.jboss.org/nexus/content/repositories/ea/
+      '[JCenter]' : 
+          url ：http://jcenter.bintray.com/
+      '[JCenter-Snapshots]' : 
+          url ：http://oss.jfrog.org/artifactory/oss-snapshot-local/
+      '[Jenkins-Releases]' : 
+          url ：http://repo.jenkins-ci.org/releases/
+      '[Nuxeo]' : 
+          url ：https://maven-eu.nuxeo.org/nexus/content/repositories/public-releases/
+      '[Pentaho-omni]' : 
+          url ：https://public.nexus.pentaho.org/content/groups/omni/
+      '[Smartbear]' : 
+          url ：http://smartbearsoftware.com/repository/maven2/
+      '[Sonatype]' : 
+          url ：https://oss.sonatype.org/content/repositories/releases/
+      '[Spring-Lib-M]' : 
+          url ：http://repo.spring.io/libs-milestone/
+      '[Spring-Lib-Release]' : 
+          url ：http://repo.spring.io/libs-release/
+      '[Spring-Plugins]' : 
+          url ：http://repo.spring.io/plugins-release/
+      '[WSO2-Public]' : 
+          url ：http://maven.wso2.org/nexus/content/repositories/public/
+      '[WSO2-Releases]' : 
+          url ：http://maven.wso2.org/nexus/content/repositories/releases/
+      '[XWiki-Releases]' : 
+          url ：http://maven.xwiki.org/releases/
+          
+    # 请求超时时间
+    request-timeout: 50000
+    # 除了解析JAR工件之外，如果为true，则解析POM工件。 这与Maven解析工件的方式一致。
+    resolve-pom: true
+    # 该参数指定更新发生的频率。Maven会比较本地POM和远程POM的时间戳。这里的选项是：always（一直），daily（默认，每日），interval：X（这里X是以分钟为单位的时间间隔），或者never（从不）。
+    update-policy: always
+    
+    
+                    
