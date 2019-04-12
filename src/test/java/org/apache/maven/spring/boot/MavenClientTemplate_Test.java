@@ -24,8 +24,6 @@ import org.springframework.cloud.deployer.resource.maven.MavenProperties;
 import org.springframework.cloud.deployer.resource.maven.MavenProperties.RemoteRepository;
 import org.springframework.core.io.Resource;
 
-/**
- */
 public class MavenClientTemplate_Test {
 	
 	private static String coordinates = "com.squareup.okhttp3:okhttp:3.13.1";

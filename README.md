@@ -1,20 +1,16 @@
-# spring-boot-starter-maven-invoker
-Spring Boot Starter For Maven Invoker
+# spring-boot-starter-maven-client
+Spring Boot Starter For Maven Client
 
 ### 说明
 
- > 基于 maven-invoker 的 Spring Boot Starter 实现
-
-https://www.cnblogs.com/xiaosiyuan/articles/5887642.html
-
-1. 整合 maven-invoker
+ > https://www.cnblogs.com/xiaosiyuan/articles/5887642.html
 
 ### Maven
 
 ``` xml
 <dependency>
 	<groupId>${project.groupId}</groupId>
-	<artifactId>spring-boot-starter-maven-invoker</artifactId>
+	<artifactId>spring-boot-starter-maven-client</artifactId>
 	<version>${project.version}</version>
 </dependency>
 ```
@@ -25,26 +21,23 @@ https://www.cnblogs.com/xiaosiyuan/articles/5887642.html
 
 import javax.annotation.PostConstruct;
 
-import org.apache.maven.spring.boot.ext.MavenInvokerTemplate;
+import org.apache.maven.spring.boot.MavenClientTemplate_Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@EnableMavenInvoker
 @SpringBootApplication
 public class Application {
 	
 	@Autowired
-	private MavenInvokerTemplate mavenInvokerTemplate;
+	private MavenClientTemplate clientTemplate;
 	
 	@PostConstruct
 	private void init() {
 		
-		//mavenInvokerTemplate.deploy(file, groupId, artifactId, version, packaging, url, repositoryId);
-		//mavenInvokerTemplate.deploy(basedir, file, groupId, artifactId, version, packaging, url, repositoryId);
-		
-		//mavenInvokerTemplate.execute(basedir, goals);
-		//mavenInvokerTemplate.execute(basedir, goals);
+		Resource resource = clientTemplate.resolve(coordinates);
+		System.out.println("Description:" + resource.getDescription());
+		System.out.println("Filename:" + resource.getFilename());
 		
 	}
 	
