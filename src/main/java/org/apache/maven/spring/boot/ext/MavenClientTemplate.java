@@ -35,6 +35,7 @@ import org.apache.maven.spring.boot.utils.RepositorySystemUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.AbstractArtifact;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.repository.Authentication;
@@ -48,7 +49,6 @@ import org.eclipse.aether.resolution.VersionRangeRequest;
 import org.eclipse.aether.resolution.VersionRangeResolutionException;
 import org.eclipse.aether.resolution.VersionRangeResult;
 import org.eclipse.aether.util.artifact.JavaScopes;
-import org.eclipse.aether.util.repository.AuthenticationBuilder;
 import org.eclipse.aether.version.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -247,44 +247,47 @@ public class MavenClientTemplate {
 				resource.getVersion());
 	}
 
-	
-
 	/**
-	 * 根据groupId和artifactId获取所有版本列表
-	 * @param params Params对象，包括基本信息
-	 * @return version列表
+	 * 
+	  * 根据groupId和artifactId获取所有版本列表
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @param groupId		： jar包在maven仓库中的groupId
+	 * @param artifactId	：jar包在maven仓库中的artifactId
+	 * @return
 	 * @throws VersionRangeResolutionException
 	 */
-	public List<Version> versions(MavenParams params)
-			throws VersionRangeResolutionException {
-		String groupId=params.getGroupId();
-		String artifactId=params.getArtifactId();
-		String repositoryUrl=params.getRepository();
-		String target=params.getTarget();
-		String username=params.getUsername();
-		String password=params.getPassword();
-		RepositorySystem repoSystem = RepositorySystemUtils.newRepositorySystem();
-		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(repoSystem, properties, authentication);
+	public VersionRangeResult versionResult(String groupId, String artifactId) throws VersionRangeResolutionException {
 		
-		RemoteRepository central = null;
-		if (username == null && password == null) {
-			central = new RemoteRepository.Builder("central", "default", repositoryUrl).build();
-		} else {
-			Authentication authentication = new AuthenticationBuilder().addUsername(username).addPassword(password)
-					.build();
-			central = new RemoteRepository.Builder("central", "default", repositoryUrl)
-					.setAuthentication(authentication).build();
-		}
-		Artifact artifact = new DefaultArtifact(groupId + ":" + artifactId + ":[0,)");
-		VersionRangeRequest rangeRequest = new VersionRangeRequest();
-		rangeRequest.setArtifact(artifact);
-		rangeRequest.addRepository(central);
+		Assert.notNull(groupId, "groupId must not be null");
+		Assert.notNull(artifactId, "artifactId must not be null");
 		
+		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem,
+				properties, authentication);
 		
-		VersionRangeResult rangeResult = repoSystem.resolveVersionRange(session, rangeRequest);
-		List<Version> versions = rangeResult.getVersions();
-		System.out.println("Available versions " + versions);
-		return versions;
+		AbstractArtifact artifact = new DefaultArtifact(groupId + ":" + artifactId + ":[0,)");
+
+		VersionRangeRequest rangeRequest = new VersionRangeRequest(artifact, this.remoteRepositories,
+				JavaScopes.RUNTIME);
+		
+		return this.repositorySystem.resolveVersionRange(session, rangeRequest);
+	}
+	
+	/**
+	 * 
+	  * 根据groupId和artifactId获取所有版本列表
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @param groupId		： jar包在maven仓库中的groupId
+	 * @param artifactId	：jar包在maven仓库中的artifactId
+	 * @return
+	 * @throws VersionRangeResolutionException
+	 */
+	public List<Version> versions(String groupId, String artifactId) throws VersionRangeResolutionException {
+		
+		Assert.notNull(groupId, "groupId must not be null");
+		Assert.notNull(artifactId, "artifactId must not be null");
+		
+		VersionRangeResult rangeResult = this.versionResult(groupId, artifactId);
+		return rangeResult.getVersions();
 	}
 
 	public Model readModel(File file) throws XmlPullParserException, IOException {
