@@ -20,7 +20,6 @@ import org.springframework.cloud.deployer.resource.maven.MavenProperties;
 
 /**
  * Maven Settings
- * 
  * @author ： <a href="https://github.com/vindell">vindell</a>
  */
 @ConfigurationProperties(MavenClientProperties.PREFIX)
@@ -31,7 +30,19 @@ public class MavenClientProperties extends MavenProperties {
 	private boolean deleteLocalCopyIfMissing;
 
 	private boolean favorLocalRepository;
-
+	
+	/**
+	 * In addition to resolving the JAR artifact, if true, resolve the javadoc artifact.
+	 * This is consistent with the way that Maven resolves artifacts.
+	 */
+	private boolean resolveJavadoc;
+	
+	/**
+	 * In addition to resolving the JAR artifact, if true, resolve the sources artifact.
+	 * This is consistent with the way that Maven resolves artifacts.
+	 */
+	private boolean resolveSources;
+	
 	/**
 	 * Indicates whether the locally cached copy of the metadata should be removed
 	 * if the corresponding file does not exist (any more) in the remote repository.
@@ -88,6 +99,22 @@ public class MavenClientProperties extends MavenProperties {
 	 */
 	public void setFavorLocalRepository(boolean favorLocalRepository) {
 		this.favorLocalRepository = favorLocalRepository;
+	}
+
+	public boolean isResolveJavadoc() {
+		return resolveJavadoc;
+	}
+
+	public void setResolveJavadoc(boolean resolveJavadoc) {
+		this.resolveJavadoc = resolveJavadoc;
+	}
+
+	public boolean isResolveSources() {
+		return resolveSources;
+	}
+
+	public void setResolveSources(boolean resolveSources) {
+		this.resolveSources = resolveSources;
 	}
 
 }

@@ -21,7 +21,10 @@ import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.ConfigurationProperties;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.connector.basic.BasicRepositoryConnectorFactory;
+import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.impl.DefaultServiceLocator;
 import org.eclipse.aether.repository.Authentication;
 import org.eclipse.aether.repository.AuthenticationContext;
@@ -34,6 +37,7 @@ import org.eclipse.aether.transport.file.FileTransporterFactory;
 import org.eclipse.aether.transport.http.HttpTransporterFactory;
 import org.eclipse.aether.util.repository.DefaultProxySelector;
 import org.springframework.cloud.deployer.resource.maven.MavenProperties;
+import org.springframework.cloud.deployer.resource.maven.MavenResource;
 
 /**
  * TODO
@@ -134,6 +138,7 @@ public class RepositorySystemUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static RepositorySystem newRepositorySystem() {
+		
 		DefaultServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
 		locator.addService(RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class);
 		locator.addService(TransporterFactory.class, FileTransporterFactory.class);
@@ -153,5 +158,23 @@ public class RepositorySystemUtils {
 		});
 		return locator.getService(RepositorySystem.class);
 	}
-
+	
+	public static Dependency createDependencyRoot(MavenResource resource) {
+        Artifact artifact = null;
+        if (resource.getClassifier() == null) {
+            artifact = new DefaultArtifact(String.format("%s:%s:%s:%s", resource.getGroupId(),
+            		resource.getArtifactId(),
+            		resource.getExtension(),
+            		resource.getVersion()));
+            return new Dependency(artifact, "compile");
+        }
+        else {
+            artifact = new DefaultArtifact(String.format("%s:%s:%s:%s:%s",
+            		resource.getGroupId(), resource.getArtifactId(),
+            		resource.getExtension(),
+            		resource.getClassifier(), resource.getVersion()));
+            return new Dependency(artifact, "compile", true);
+        }
+	}
+	
 }
