@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.apache.maven.spring.boot.ext.MavenClientTemplate;
 import org.junit.Test;
-import org.springframework.cloud.deployer.resource.maven.MavenProperties;
 import org.springframework.cloud.deployer.resource.maven.MavenProperties.RemoteRepository;
 import org.springframework.core.io.Resource;
 
@@ -31,7 +30,7 @@ public class MavenClientTemplate_Test {
 
 	static {
 		
-		MavenProperties properties = new MavenProperties();
+		MavenClientProperties properties = new MavenClientProperties();
 		// 当Maven验证构件校验文件失败时该怎么做-ignore（忽略），fail（失败），或者warn（警告）。
 		properties.setChecksumPolicy("warn");
 		// 连接超时时间
@@ -59,7 +58,7 @@ public class MavenClientTemplate_Test {
 	@Test
 	public void testResource1() {
 
-		Resource resource = clientTemplate.resolve(coordinates);
+		Resource resource = clientTemplate.resource(coordinates);
 		System.out.println("Description:" + resource.getDescription());
 		System.out.println("Filename:" + resource.getFilename());
 		
@@ -68,7 +67,7 @@ public class MavenClientTemplate_Test {
 	@Test
 	public void testResource2() {
 
-		Resource resource = clientTemplate.resolve("com.squareup.okhttp3","okhttp","3.14.1");
+		Resource resource = clientTemplate.resource("com.squareup.okhttp3","okhttp","3.14.1");
 		System.out.println("Description:" + resource.getDescription());
 		System.out.println("Filename:" + resource.getFilename());
 		 

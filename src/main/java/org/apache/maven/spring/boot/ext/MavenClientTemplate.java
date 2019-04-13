@@ -31,6 +31,7 @@ import java.util.zip.ZipFile;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.spring.boot.MavenClientProperties;
 import org.apache.maven.spring.boot.utils.RepositorySystemUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.aether.RepositorySystem;
@@ -38,6 +39,7 @@ import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.AbstractArtifact;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.repository.Authentication;
 import org.eclipse.aether.repository.Proxy;
 import org.eclipse.aether.repository.RemoteRepository;
@@ -45,11 +47,18 @@ import org.eclipse.aether.repository.RepositoryPolicy;
 import org.eclipse.aether.resolution.ArtifactRequest;
 import org.eclipse.aether.resolution.ArtifactResolutionException;
 import org.eclipse.aether.resolution.ArtifactResult;
+import org.eclipse.aether.resolution.DependencyRequest;
+import org.eclipse.aether.resolution.DependencyResolutionException;
+import org.eclipse.aether.resolution.DependencyResult;
+import org.eclipse.aether.resolution.MetadataRequest;
+import org.eclipse.aether.resolution.MetadataResult;
 import org.eclipse.aether.resolution.VersionRangeRequest;
 import org.eclipse.aether.resolution.VersionRangeResolutionException;
 import org.eclipse.aether.resolution.VersionRangeResult;
+import org.eclipse.aether.resolution.VersionRequest;
+import org.eclipse.aether.resolution.VersionResolutionException;
+import org.eclipse.aether.resolution.VersionResult;
 import org.eclipse.aether.util.artifact.JavaScopes;
-import org.eclipse.aether.version.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.deployer.resource.maven.MavenProperties;
@@ -70,7 +79,7 @@ public class MavenClientTemplate {
 	private String DEFAULT_CONTENT_TYPE = "default";
 	private List<RemoteRepository> remoteRepositories = new LinkedList<RemoteRepository>();
 	private final RepositorySystem repositorySystem;
-	private MavenProperties properties;
+	private MavenClientProperties properties;
 	private final Authentication authentication;
 	private MavenXpp3Reader modelReader = new MavenXpp3Reader();
 	
@@ -78,7 +87,7 @@ public class MavenClientTemplate {
 	 * Create an instance using the provided properties.
 	 * @param properties the properties for the maven repositories, proxies, and authentication
 	 */
-	public MavenClientTemplate(MavenProperties mavenProperties) {
+	public MavenClientTemplate(MavenClientProperties mavenProperties) {
 		this.properties = mavenProperties;
 		Assert.notNull(properties, "MavenProperties must not be null");
 		Assert.notNull(properties.getLocalRepository(), "Local repository path cannot be null");
@@ -152,26 +161,284 @@ public class MavenClientTemplate {
 		this.repositorySystem = RepositorySystemUtils.newRepositorySystem();
 	}
 	
-	public Resource resolve(String coordinates) {
-		return this.resolve(MavenResource.parse(coordinates, properties));
+	public ArtifactResult artifact(String coordinates) {
+		Assert.notNull(coordinates, "coordinates must not be null");
+		return this.artifact(MavenResource.parse(coordinates, properties));
 	}
 
-	public Resource resolve(String groupId, String artifactId, String version) {
+	public ArtifactResult artifact(String groupId, String artifactId, String version) {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
 				.build();
-		return this.resolve(resource);
+		return this.artifact(resource);
 	}
 
-	public Resource resolve(String groupId, String artifactId, String classifier, String version) {
+	public ArtifactResult artifact(String groupId, String artifactId, String classifier, String version) {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
 				.classifier(classifier).version(version).build();
-		return this.resolve(resource);
+		return this.artifact(resource);
 	}
 
-	public Resource resolve(String groupId, String artifactId, String classifier, String version, String extension) {
+	public ArtifactResult artifact(String groupId, String artifactId, String classifier, String version, String extension) {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
 				.classifier(classifier).version(version).extension(extension).build();
-		return this.resolve(resource);
+		return this.artifact(resource);
+	}
+	 
+	
+	/**
+	 * get ArtifactResult
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @param resource the {@link MavenResource} representing the artifact
+	 * @return a {@link ArtifactResult} representing the resolved artifact in the local repository
+	 * @throws IllegalStateException if the artifact does not exist or the resolution fails
+	 */
+	public ArtifactResult artifact(MavenResource resource) {
+		
+		Assert.notNull(resource, "MavenResource must not be null");
+		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem,
+				properties, authentication);
+		validateCoordinates(resource);
+		
+		try {
+			
+			ArtifactRequest request = new ArtifactRequest(toJarArtifact(resource), this.remoteRepositories,
+					JavaScopes.RUNTIME);
+			
+			return this.repositorySystem.resolveArtifact(session, request);
+			
+		} catch (ArtifactResolutionException e) {
+			ChoiceFormat pluralizer = new ChoiceFormat(
+					new double[] { 0d, 1d, ChoiceFormat.nextDouble(1d) },
+					new String[] { "repositories: ", "repository: ", "repositories: " });
+			MessageFormat messageFormat = new MessageFormat(
+					"Failed to resolve MavenResource: {0}. Configured remote {1}: {2}");
+			messageFormat.setFormat(1, pluralizer);
+			String repos = properties.getRemoteRepositories().isEmpty()
+					? "none"
+					: StringUtils.collectionToDelimitedString(properties.getRemoteRepositories().keySet(), ",", "[", "]");
+			throw new IllegalStateException(
+					messageFormat.format(new Object[] { resource, properties.getRemoteRepositories().size(), repos }),
+					e);
+		}
+	}
+	
+	public List<ArtifactResult> artifacts(String coordinates) {
+		return this.artifacts(MavenResource.parse(coordinates, properties));
+	}
+
+	public List<ArtifactResult> artifacts(String groupId, String artifactId, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
+				.build();
+		return this.artifacts(resource);
+	}
+
+	public List<ArtifactResult> artifacts(String groupId, String artifactId, String classifier, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).build();
+		return this.artifacts(resource);
+	}
+
+	public List<ArtifactResult> artifacts(String groupId, String artifactId, String classifier, String version, String extension) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).extension(extension).build();
+		return this.artifacts(resource);
+	}
+	
+	/**
+	 * Resolve an artifact and return its location in the local repository. Aether performs the normal
+	 * Maven resolution process ensuring that the latest update is cached to the local repository.
+	 * In addition, if the {@link MavenProperties#resolvePom} flag is <code>true</code>,
+	 * the POM is also resolved and cached.
+	 * @param resource the {@link MavenResource} representing the artifact
+	 * @return a {@link List<ArtifactResult>} representing the resolved artifact in the local repository
+	 * @throws IllegalStateException if the artifact does not exist or the resolution fails
+	 */
+	public List<ArtifactResult> artifacts(MavenResource resource) {
+		Assert.notNull(resource, "MavenResource must not be null");
+		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem, this.properties, this.authentication);
+		validateCoordinates(resource);
+		try {
+			
+			
+			List<ArtifactRequest> artifactRequests = new ArrayList<>(2);
+			if (properties.isResolvePom()) {
+				artifactRequests.add(new ArtifactRequest(toPomArtifact(resource),
+						this.remoteRepositories,
+						JavaScopes.RUNTIME));
+			}
+			artifactRequests.add(new ArtifactRequest(toJarArtifact(resource),
+					this.remoteRepositories,
+					JavaScopes.RUNTIME));
+
+			return this.repositorySystem.resolveArtifacts(session, artifactRequests);
+			
+		}
+		catch (ArtifactResolutionException e) {
+
+			ChoiceFormat pluralizer = new ChoiceFormat(
+					new double[] { 0d, 1d, ChoiceFormat.nextDouble(1d) },
+					new String[] { "repositories: ", "repository: ", "repositories: " });
+			MessageFormat messageFormat = new MessageFormat(
+					"Failed to resolve MavenResource: {0}. Configured remote {1}: {2}");
+			messageFormat.setFormat(1, pluralizer);
+			String repos = properties.getRemoteRepositories().isEmpty()
+					? "none"
+					: StringUtils.collectionToDelimitedString(properties.getRemoteRepositories().keySet(), ",", "[", "]");
+			throw new IllegalStateException(
+					messageFormat.format(new Object[] { resource, properties.getRemoteRepositories().size(), repos }),
+					e);
+		}
+	}
+	
+	public DependencyResult dependencies(String coordinates) {
+		Assert.notNull(coordinates, "coordinates must not be null");
+		return this.dependencies(MavenResource.parse(coordinates, properties));
+	}
+
+	public DependencyResult dependencies(String groupId, String artifactId, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
+				.build();
+		return this.dependencies(resource);
+	}
+
+	public DependencyResult dependencies(String groupId, String artifactId, String classifier, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).build();
+		return this.dependencies(resource);
+	}
+
+	public DependencyResult dependencies(String groupId, String artifactId, String classifier, String version, String extension) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).extension(extension).build();
+		return this.dependencies(resource);
+	}
+	 
+	
+	/**
+	 * get DependencyResult
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @param resource the {@link MavenResource} representing the artifact
+	 * @return a {@link DependencyResult} representing the resolved artifact in the local repository
+	 * @throws IllegalStateException if the artifact does not exist or the resolution fails
+	 */
+	public DependencyResult dependencies(MavenResource resource) {
+		
+		Assert.notNull(resource, "MavenResource must not be null");
+		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem,
+				properties, authentication);
+		validateCoordinates(resource);
+		
+		try {
+			
+			CollectRequest collectRequest = new CollectRequest();
+			collectRequest.setRepositories(this.remoteRepositories);
+			collectRequest.setRootArtifact(toJarArtifact(resource));
+					
+			DependencyRequest request = new DependencyRequest();
+			request.setCollectRequest(collectRequest);
+			
+			return this.repositorySystem.resolveDependencies(session, request);
+			
+		} catch (DependencyResolutionException e) {
+			ChoiceFormat pluralizer = new ChoiceFormat(
+					new double[] { 0d, 1d, ChoiceFormat.nextDouble(1d) },
+					new String[] { "repositories: ", "repository: ", "repositories: " });
+			MessageFormat messageFormat = new MessageFormat(
+					"Failed to resolve MavenResource: {0}. Configured remote {1}: {2}");
+			messageFormat.setFormat(1, pluralizer);
+			String repos = properties.getRemoteRepositories().isEmpty()
+					? "none"
+					: StringUtils.collectionToDelimitedString(properties.getRemoteRepositories().keySet(), ",", "[", "]");
+			throw new IllegalStateException(
+					messageFormat.format(new Object[] { resource, properties.getRemoteRepositories().size(), repos }),
+					e);
+		}
+	}
+	
+	public List<MetadataResult> metadata(String coordinates) {
+		Assert.notNull(coordinates, "coordinates must not be null");
+		return this.metadata(MavenResource.parse(coordinates, properties));
+	}
+
+	public List<MetadataResult> metadata(String groupId, String artifactId, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
+				.build();
+		return this.metadata(resource);
+	}
+
+	public List<MetadataResult> metadata(String groupId, String artifactId, String classifier, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).build();
+		return this.metadata(resource);
+	}
+
+	public List<MetadataResult> metadata(String groupId, String artifactId, String classifier, String version, String extension) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).extension(extension).build();
+		return this.metadata(resource);
+	}
+	 
+	
+	/**
+	 * get List<MetadataResult>
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @param resource the {@link MavenResource} representing the artifact
+	 * @return a {@link List<MetadataResult>} representing the resolved artifact in the local repository
+	 */
+	public List<MetadataResult> metadata(MavenResource resource) {
+		
+		Assert.notNull(resource, "MavenResource must not be null");
+		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem,
+				properties, authentication);
+		validateCoordinates(resource);
+
+		List<MetadataRequest> requests = new ArrayList<>(this.remoteRepositories.size());
+		for (RemoteRepository repository : this.remoteRepositories) {
+			requests.add(new MetadataRequest()
+					.setDeleteLocalCopyIfMissing(properties.isDeleteLocalCopyIfMissing())
+					.setFavorLocalRepository(properties.isFavorLocalRepository())
+					.setRepository(repository));
+		}
+
+		return this.repositorySystem.resolveMetadata(session, requests);
+	}
+	
+	public Model resolve(File file) throws XmlPullParserException, IOException {
+		try (ZipFile zipFile = new ZipFile(file)) {
+			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = entries.nextElement();
+				// System.out.println(entry.getName());
+				if (entry.getName().endsWith("pom.xml")) {
+					InputStream input = zipFile.getInputStream(entry);
+					Model model = modelReader.read(new InputStreamReader(input));
+					return model;
+				}
+			}
+		}
+		throw new IOException("Not a maven project, unable to parse version information.");
+	}
+	
+	public Resource resource(String coordinates) {
+		return this.resource(MavenResource.parse(coordinates, properties));
+	}
+
+	public Resource resource(String groupId, String artifactId, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
+				.build();
+		return this.resource(resource);
+	}
+
+	public Resource resource(String groupId, String artifactId, String classifier, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).build();
+		return this.resource(resource);
+	}
+
+	public Resource resource(String groupId, String artifactId, String classifier, String version, String extension) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).extension(extension).build();
+		return this.resource(resource);
 	}
 	
 	/**
@@ -183,12 +450,13 @@ public class MavenClientTemplate {
 	 * @return a {@link FileSystemResource} representing the resolved artifact in the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the resolution fails
 	 */
-	public Resource resolve(MavenResource resource) {
+	public Resource resource(MavenResource resource) {
 		Assert.notNull(resource, "MavenResource must not be null");
 		validateCoordinates(resource);
 		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem, this.properties, this.authentication);
 		ArtifactResult resolvedArtifact;
 		try {
+			
 			List<ArtifactRequest> artifactRequests = new ArrayList<>(2);
 			if (properties.isResolvePom()) {
 				artifactRequests.add(new ArtifactRequest(toPomArtifact(resource),
@@ -231,15 +499,15 @@ public class MavenClientTemplate {
 		return new FileSystemResource(resolvedArtifact.getArtifact().getFile());
 	}
 
-	private Artifact toJarArtifact(MavenResource resource) {
+	public Artifact toJarArtifact(MavenResource resource) {
 		return toArtifact(resource, resource.getExtension());
 	}
 
-	private Artifact toPomArtifact(MavenResource resource) {
+	public Artifact toPomArtifact(MavenResource resource) {
 		return toArtifact(resource, "pom");
 	}
 
-	private Artifact toArtifact(MavenResource resource, String extension) {
+	public Artifact toArtifact(MavenResource resource, String extension) {
 		return new DefaultArtifact(resource.getGroupId(),
 				resource.getArtifactId(),
 				resource.getClassifier() != null ? resource.getClassifier() : "",
@@ -247,63 +515,126 @@ public class MavenClientTemplate {
 				resource.getVersion());
 	}
 
-	/**
-	 * 
-	  * 根据groupId和artifactId获取所有版本列表
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
-	 * @param groupId		： jar包在maven仓库中的groupId
-	 * @param artifactId	：jar包在maven仓库中的artifactId
-	 * @return
-	 * @throws VersionRangeResolutionException
-	 */
-	public VersionRangeResult versionResult(String groupId, String artifactId) throws VersionRangeResolutionException {
-		
-		Assert.notNull(groupId, "groupId must not be null");
-		Assert.notNull(artifactId, "artifactId must not be null");
-		
-		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem,
-				properties, authentication);
-		
-		AbstractArtifact artifact = new DefaultArtifact(groupId + ":" + artifactId + ":[0,)");
+	public VersionResult version(String coordinates) {
+		Assert.notNull(coordinates, "coordinates must not be null");
+		return this.version(MavenResource.parse(coordinates, properties));
+	}
 
-		VersionRangeRequest rangeRequest = new VersionRangeRequest(artifact, this.remoteRepositories,
-				JavaScopes.RUNTIME);
-		
-		return this.repositorySystem.resolveVersionRange(session, rangeRequest);
+	public VersionResult version(String groupId, String artifactId, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
+				.build();
+		return this.version(resource);
+	}
+
+	public VersionResult version(String groupId, String artifactId, String classifier, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).build();
+		return this.version(resource);
+	}
+
+	public VersionResult version(String groupId, String artifactId, String classifier, String version, String extension) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).extension(extension).build();
+		return this.version(resource);
 	}
 	
 	/**
-	 * 
-	  * 根据groupId和artifactId获取所有版本列表
+	 * get VersionResult
 	 * @author 		： <a href="https://github.com/vindell">vindell</a>
-	 * @param groupId		： jar包在maven仓库中的groupId
-	 * @param artifactId	：jar包在maven仓库中的artifactId
-	 * @return
-	 * @throws VersionRangeResolutionException
+	 * @param resource the {@link MavenResource} representing the artifact
+	 * @return a {@link VersionResult} representing the resolved artifact in the local repository
+	 * @throws IllegalStateException if the artifact does not exist or the resolution fails
 	 */
-	public List<Version> versions(String groupId, String artifactId) throws VersionRangeResolutionException {
+	public VersionResult version(MavenResource resource) {
 		
-		Assert.notNull(groupId, "groupId must not be null");
-		Assert.notNull(artifactId, "artifactId must not be null");
+		Assert.notNull(resource, "MavenResource must not be null");
+		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem,
+				properties, authentication);
+		validateCoordinates(resource);
 		
-		VersionRangeResult rangeResult = this.versionResult(groupId, artifactId);
-		return rangeResult.getVersions();
-	}
-
-	public Model readModel(File file) throws XmlPullParserException, IOException {
-		try (ZipFile zipFile = new ZipFile(file)) {
-			Enumeration<? extends ZipEntry> entries = zipFile.entries();
-			while (entries.hasMoreElements()) {
-				ZipEntry entry = entries.nextElement();
-				// System.out.println(entry.getName());
-				if (entry.getName().endsWith("pom.xml")) {
-					InputStream input = zipFile.getInputStream(entry);
-					Model model = modelReader.read(new InputStreamReader(input));
-					return model;
-				}
-			}
+		try {
+			
+			VersionRequest request = new VersionRequest(toJarArtifact(resource), this.remoteRepositories,
+					JavaScopes.RUNTIME);
+			
+			return this.repositorySystem.resolveVersion(session, request);
+			
+		} catch (VersionResolutionException e) {
+			ChoiceFormat pluralizer = new ChoiceFormat(
+					new double[] { 0d, 1d, ChoiceFormat.nextDouble(1d) },
+					new String[] { "repositories: ", "repository: ", "repositories: " });
+			MessageFormat messageFormat = new MessageFormat(
+					"Failed to resolve MavenResource: {0}. Configured remote {1}: {2}");
+			messageFormat.setFormat(1, pluralizer);
+			String repos = properties.getRemoteRepositories().isEmpty()
+					? "none"
+					: StringUtils.collectionToDelimitedString(properties.getRemoteRepositories().keySet(), ",", "[", "]");
+			throw new IllegalStateException(
+					messageFormat.format(new Object[] { resource, properties.getRemoteRepositories().size(), repos }),
+					e);
 		}
-		throw new IOException("Not a maven project, unable to parse version information.");
 	}
 
+	public VersionRangeResult versionRange(String coordinates) {
+		Assert.notNull(coordinates, "coordinates must not be null");
+		return this.versionRange(MavenResource.parse(coordinates, properties));
+	}
+
+	public VersionRangeResult versionRange(String groupId, String artifactId, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
+				.build();
+		return this.versionRange(resource);
+	}
+
+	public VersionRangeResult versionRange(String groupId, String artifactId, String classifier, String version) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).build();
+		return this.versionRange(resource);
+	}
+
+	public VersionRangeResult versionRange(String groupId, String artifactId, String classifier, String version, String extension) {
+		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
+				.classifier(classifier).version(version).extension(extension).build();
+		return this.versionRange(resource);
+	}
+	
+	/**
+	 * get VersionRangeResult
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @param resource the {@link MavenResource} representing the artifact
+	 * @return a {@link VersionRangeResult} representing the resolved artifact in the local repository
+	 * @throws IllegalStateException if the artifact does not exist or the resolution fails
+	 */
+	public VersionRangeResult versionRange(MavenResource resource) {
+		
+		Assert.notNull(resource, "MavenResource must not be null");
+		RepositorySystemSession session = RepositorySystemUtils.newRepositorySystemSession(this.repositorySystem,
+				properties, authentication);
+		validateCoordinates(resource);
+		
+		try {
+			
+			AbstractArtifact artifact = new DefaultArtifact(resource.getGroupId() + ":" + resource.getArtifactId() + ":[0,)");
+
+			VersionRangeRequest rangeRequest = new VersionRangeRequest(artifact, this.remoteRepositories,
+					JavaScopes.RUNTIME);
+			
+			return this.repositorySystem.resolveVersionRange(session, rangeRequest);
+			
+		} catch (VersionRangeResolutionException e) {
+			ChoiceFormat pluralizer = new ChoiceFormat(
+					new double[] { 0d, 1d, ChoiceFormat.nextDouble(1d) },
+					new String[] { "repositories: ", "repository: ", "repositories: " });
+			MessageFormat messageFormat = new MessageFormat(
+					"Failed to resolve MavenResource: {0}. Configured remote {1}: {2}");
+			messageFormat.setFormat(1, pluralizer);
+			String repos = properties.getRemoteRepositories().isEmpty()
+					? "none"
+					: StringUtils.collectionToDelimitedString(properties.getRemoteRepositories().keySet(), ",", "[", "]");
+			throw new IllegalStateException(
+					messageFormat.format(new Object[] { resource, properties.getRemoteRepositories().size(), repos }),
+					e);
+		}
+	}
+	
 }
