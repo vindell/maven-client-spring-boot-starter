@@ -82,8 +82,15 @@ import org.springframework.util.StringUtils;
 import com.google.common.collect.Iterables;
 
 /**
- * 基于Maven Invoker的Maven build实现，依赖于本机环境中的Maven环境
- * 
+ * 	
+ * 	<b>基于maven-aether-provider的Maven Client实现，不依赖于本机的Maven环境即可实现Maven组件相关操作：</b>
+ * 	<p>支持操作：</p>
+ * 	<p>1、解析构件信息</p>
+ * 	<p>2、解析版本信息</p>
+ * 	<p>3、解析依赖信息</p>
+ * 	<p>4、从远程仓库下载构件</p>
+ * 	<p>5、安装指定构件到本地仓库</p>
+ * 	<p>6、发布本地构件到远程仓库</p>
  * @author ： <a href="https://github.com/vindell">vindell</a>
  */
 public class MavenClientTemplate {
