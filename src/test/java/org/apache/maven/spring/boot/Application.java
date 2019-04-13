@@ -15,6 +15,8 @@
  */
 package org.apache.maven.spring.boot;
 
+import java.io.File;
+
 import javax.annotation.PostConstruct;
 
 import org.apache.maven.spring.boot.ext.MavenClientTemplate;
@@ -25,17 +27,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 	
+	private static String coordinates = "com.squareup.okhttp3:okhttp:3.14.1";
+	
 	@Autowired
 	private MavenClientTemplate mavenClientTemplate;
 	
 	@PostConstruct
-	private void init() {
+	private void init() throws Exception {
 		
-		//mavenInvokerTemplate.deploy(file, groupId, artifactId, version, packaging, url, repositoryId);
-		//mavenInvokerTemplate.deploy(basedir, file, groupId, artifactId, version, packaging, url, repositoryId);
-		
-		//mavenInvokerTemplate.execute(basedir, goals);
-		//mavenInvokerTemplate.execute(basedir, goals);
+		mavenClientTemplate.install(new File("D:\\okhttp-3.14.1.jar"), coordinates);
+		mavenClientTemplate.deploy(new File("D:\\okhttp-3.14.1.jar"), coordinates, "maven-releases");
 		
 	}
 	

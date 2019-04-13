@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
 import java.text.ChoiceFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -1091,7 +1090,7 @@ public class MavenClientTemplate {
 	 * @throws InstallationException if the artifact does not exist or the install
 	 *                               fails
 	 */
-	public InstallResult install(Path path, String coordinates) throws InstallationException {
+	public InstallResult install(File path, String coordinates) throws InstallationException {
 		Assert.notNull(coordinates, "coordinates must not be null");
 		return this.install(path, MavenResource.parse(coordinates, properties));
 	}
@@ -1110,7 +1109,7 @@ public class MavenClientTemplate {
 	 * @throws InstallationException if the artifact does not exist or the install
 	 *                               fails
 	 */
-	public InstallResult install(Path path, String groupId, String artifactId, String version)
+	public InstallResult install(File path, String groupId, String artifactId, String version)
 			throws InstallationException {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId).version(version)
 				.build();
@@ -1132,7 +1131,7 @@ public class MavenClientTemplate {
 	 * @throws InstallationException if the artifact does not exist or the install
 	 *                               fails
 	 */
-	public InstallResult install(Path path, String groupId, String artifactId, String classifier, String version)
+	public InstallResult install(File path, String groupId, String artifactId, String classifier, String version)
 			throws InstallationException {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
 				.classifier(classifier).version(version).build();
@@ -1155,7 +1154,7 @@ public class MavenClientTemplate {
 	 * @throws InstallationException if the artifact does not exist or the install
 	 *                               fails
 	 */
-	public InstallResult install(Path path, String groupId, String artifactId, String classifier, String extension,
+	public InstallResult install(File path, String groupId, String artifactId, String classifier, String extension,
 			String version) throws InstallationException {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
 				.classifier(classifier).extension(extension).version(version).build();
@@ -1173,10 +1172,10 @@ public class MavenClientTemplate {
 	 * @throws InstallationException if the artifact does not exist or the install
 	 *                               fails
 	 */
-	public InstallResult install(Path path, MavenResource resource) throws InstallationException {
+	public InstallResult install(File path, MavenResource resource) throws InstallationException {
 
 		Artifact artifact = ArtifactUtils.toJarArtifact(resource);
-		artifact.setFile(path.toFile());
+		artifact.setFile(path);
 
 		return this.install(artifact);
 	}
@@ -1217,13 +1216,13 @@ public class MavenClientTemplate {
 	 * @throws DeploymentException if the artifact does not exist or the deploy
 	 *                             fails
 	 */
-	public DeployResult deploy(Path path, String coordinates, String repositoryId) throws DeploymentException {
+	public DeployResult deploy(File path, String coordinates, String repositoryId) throws DeploymentException {
 		Assert.notNull(coordinates, "coordinates must not be null");
 
 		MavenResource resource = MavenResource.parse(coordinates, properties);
 
 		Artifact artifact = ArtifactUtils.toJarArtifact(resource);
-		artifact.setFile(path.toFile());
+		artifact.setFile(path);
 
 		return this.deploy(this.remoteRepositoriesMap.get(repositoryId), artifact);
 
@@ -1245,13 +1244,13 @@ public class MavenClientTemplate {
 	 * @throws DeploymentException if the artifact does not exist or the deploy
 	 *                             fails
 	 */
-	public DeployResult deploy(Path path, String groupId, String artifactId, String version, String repositoryId)
+	public DeployResult deploy(File path, String groupId, String artifactId, String version, String repositoryId)
 			throws DeploymentException {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId)
 				.artifactId(artifactId).version(version)
 				.build();
 		Artifact artifact = ArtifactUtils.toJarArtifact(resource);
-		artifact.setFile(path.toFile());
+		artifact.setFile(path);
 
 		return this.deploy(this.remoteRepositoriesMap.get(repositoryId), artifact);
 	}
@@ -1273,13 +1272,13 @@ public class MavenClientTemplate {
 	 * @throws DeploymentException if the artifact does not exist or the deploy
 	 *                             fails
 	 */
-	public DeployResult deploy(Path path, String groupId, String artifactId, String classifier, String version,
+	public DeployResult deploy(File path, String groupId, String artifactId, String classifier, String version,
 			String repositoryId) throws DeploymentException {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
 				.classifier(classifier).version(version).build();
 		
 		Artifact artifact = ArtifactUtils.toJarArtifact(resource);
-		artifact.setFile(path.toFile());
+		artifact.setFile(path);
 
 		return this.deploy(this.remoteRepositoriesMap.get(repositoryId), artifact);
 	}
@@ -1302,13 +1301,13 @@ public class MavenClientTemplate {
 	 * @throws DeploymentException if the artifact does not exist or the deploy
 	 *                             fails
 	 */
-	public DeployResult deploy(Path path, String groupId, String artifactId, String classifier, String extension,
+	public DeployResult deploy(File path, String groupId, String artifactId, String classifier, String extension,
 			String version, String repositoryId) throws DeploymentException {
 		MavenResource resource = new MavenResource.Builder().groupId(groupId).artifactId(artifactId)
 				.classifier(classifier).extension(extension).version(version).build();
 
 		Artifact artifact = ArtifactUtils.toJarArtifact(resource);
-		artifact.setFile(path.toFile());
+		artifact.setFile(path);
 
 		return this.deploy(this.remoteRepositoriesMap.get(repositoryId), artifact);
 	}

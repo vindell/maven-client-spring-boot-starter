@@ -368,9 +368,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<aether.version>1.0.2.v20150114</aether.version>
-		<maven.version>3.3.9</maven.version>
-		<maven-invoker.version>3.0.1</maven-invoker.version>
-		<maven-shared.version>3.2.1</maven-shared.version>
+		<maven-aether.version>3.3.9</maven-aether.version>
+		<maven-settings.version>3.6.0</maven-settings.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -413,7 +412,13 @@
 			<dependency>
 				<groupId>org.apache.maven</groupId>
 				<artifactId>maven-aether-provider</artifactId>
-				<version>${maven.version}</version>
+				<version>${maven-aether.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-settings-builder -->
+			<dependency>
+			    <groupId>org.apache.maven</groupId>
+			    <artifactId>maven-settings-builder</artifactId>
+			    <version>${maven-settings.version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.maven.wagon -->
 			<dependency>
