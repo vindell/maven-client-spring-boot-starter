@@ -11,7 +11,7 @@ Spring Boot Starter For Maven Client
 <dependency>
 	<groupId>${project.groupId}</groupId>
 	<artifactId>spring-boot-starter-maven-client</artifactId>
-	<version>${project.version}</version>
+	<version>1.0.0.RELEASE</version>
 </dependency>
 ```
 
