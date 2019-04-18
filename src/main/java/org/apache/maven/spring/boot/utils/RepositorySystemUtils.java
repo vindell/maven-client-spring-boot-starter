@@ -48,7 +48,7 @@ public class RepositorySystemUtils {
 
 	/**
 	 * Check if the proxy settings are provided.
-	 * 
+	 * @param properties MavenProperties
 	 * @return boolean true if the proxy settings are provided.
 	 */
 	public static boolean isProxyEnabled(MavenProperties properties) {
@@ -58,7 +58,7 @@ public class RepositorySystemUtils {
 
 	/**
 	 * Check if the proxy setting has username/password set.
-	 *
+	 * @param properties MavenProperties
 	 * @return boolean true if both the username/password are set
 	 */
 	public static boolean proxyHasCredentials(MavenProperties properties) {
@@ -70,7 +70,7 @@ public class RepositorySystemUtils {
 	/**
 	 * Check if the {@link MavenProperties.RemoteRepository} setting has
 	 * username/password set.
-	 *
+	 * @param remoteRepository remoteRepository
 	 * @return boolean true if both the username/password are set
 	 */
 	public static boolean remoteRepositoryHasCredentials(MavenProperties.RemoteRepository remoteRepository) {
@@ -81,8 +81,8 @@ public class RepositorySystemUtils {
 	/**
 	 * Create an {@link Authentication} given a username/password
 	 *
-	 * @param username
-	 * @param password
+	 * @param username username
+	 * @param password password 
 	 * @return a configured {@link Authentication}
 	 */
 	public static Authentication newAuthentication(final String username, final String password) {

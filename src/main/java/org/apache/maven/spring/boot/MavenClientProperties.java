@@ -31,19 +31,19 @@ public class MavenClientProperties extends MavenProperties {
 
 	private boolean favorLocalRepository;
 	
-	/**
+	/*
 	 * In addition to resolving the JAR artifact, if true, resolve the javadoc artifact.
 	 * This is consistent with the way that Maven resolves artifacts.
 	 */
 	private boolean resolveJavadoc;
 	
-	/**
+	/*
 	 * In addition to resolving the JAR artifact, if true, resolve the sources artifact.
 	 * This is consistent with the way that Maven resolves artifacts.
 	 */
 	private boolean resolveSources;
 	
-	/**
+	/*
 	 * Indicates whether the locally cached copy of the metadata should be removed
 	 * if the corresponding file does not exist (any more) in the remote repository.
 	 * 
@@ -55,7 +55,7 @@ public class MavenClientProperties extends MavenProperties {
 		return deleteLocalCopyIfMissing;
 	}
 
-	/**
+	/*
 	 * Controls whether the locally cached copy of the metadata should be removed if
 	 * the corresponding file does not exist (any more) in the remote repository.
 	 * 
@@ -69,7 +69,7 @@ public class MavenClientProperties extends MavenProperties {
 		this.deleteLocalCopyIfMissing = deleteLocalCopyIfMissing;
 	}
 
-	/**
+	/*
 	 * Indicates whether the metadata resolution should be suppressed if the
 	 * corresponding metadata of the local repository is up-to-date according to the
 	 * update policy of the remote repository. In this case, the metadata resolution
@@ -84,7 +84,7 @@ public class MavenClientProperties extends MavenProperties {
 		return favorLocalRepository;
 	}
 
-	/**
+	/*
 	 * Controls resolution of remote metadata when already corresponding metadata of
 	 * the local repository exists. In cases where the local repository's metadata
 	 * is sufficient and going to be preferred, resolution of the remote metadata

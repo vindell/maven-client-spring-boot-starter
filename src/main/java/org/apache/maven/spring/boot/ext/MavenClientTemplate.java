@@ -107,7 +107,7 @@ public class MavenClientTemplate {
 	/**
 	 * Create an instance using the provided properties.
 	 * 
-	 * @param properties the properties for the maven repositories, proxies, and
+	 * @param mavenProperties the properties for the maven repositories, proxies, and
 	 *                   authentication
 	 */
 	public MavenClientTemplate(MavenClientProperties mavenProperties) {
@@ -299,13 +299,13 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<ArtifactResult>
+	 * get MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
-	 * @return a {@link List<ArtifactResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -315,14 +315,14 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<ArtifactResult>
+	 * get MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<ArtifactResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -334,7 +334,7 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<ArtifactResult>
+	 * get MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
@@ -342,7 +342,7 @@ public class MavenClientTemplate {
 	 *                   {@code null}.
 	 * @param classifier The classifier of the artifact, may be {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<ArtifactResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -354,7 +354,7 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<ArtifactResult>
+	 * get MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
@@ -363,7 +363,7 @@ public class MavenClientTemplate {
 	 * @param classifier The classifier of the artifact, may be {@code null}.
 	 * @param extension  The file extension of the artifact, may be {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<ArtifactResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -383,7 +383,7 @@ public class MavenClientTemplate {
 	 * resolved and cached.
 	 * 
 	 * @param resource the {@link MavenResource} representing the artifact
-	 * @return a {@link List<ArtifactResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -551,13 +551,13 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<MetadataResult>
+	 * get  MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -568,14 +568,14 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<MetadataResult>
+	 * get  MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -587,7 +587,7 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<MetadataResult>
+	 * get  MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
@@ -595,7 +595,7 @@ public class MavenClientTemplate {
 	 *                   {@code null}.
 	 * @param classifier The classifier of the artifact, may be {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -607,7 +607,7 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<MetadataResult>
+	 * get  MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
@@ -616,7 +616,7 @@ public class MavenClientTemplate {
 	 * @param classifier The classifier of the artifact, may be {@code null}.
 	 * @param extension  The file extension of the artifact, may be {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -629,11 +629,11 @@ public class MavenClientTemplate {
 	}
 
 	/**
-	 * get List<MetadataResult>
+	 * get MetadataResult
 	 * 
 	 * @author ： <a href="https://github.com/vindell">vindell</a>
 	 * @param resource the {@link MavenResource} representing the artifact
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
 	 */
 	public List<MetadataResult> metadata(MavenResource resource) {
@@ -679,7 +679,7 @@ public class MavenClientTemplate {
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link Resource} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -700,7 +700,7 @@ public class MavenClientTemplate {
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link Resource} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -724,7 +724,7 @@ public class MavenClientTemplate {
 	 *                   {@code null}.
 	 * @param classifier The classifier of the artifact, may be {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link Resource} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
@@ -749,7 +749,7 @@ public class MavenClientTemplate {
 	 * @param classifier The classifier of the artifact, may be {@code null}.
 	 * @param extension  The file extension of the artifact, may be {@code null}.
 	 * @param version    The version of the artifact, may be {@code null}.
-	 * @return a {@link List<MetadataResult>} representing the resolved artifact in
+	 * @return a {@link Resource} representing the resolved artifact in
 	 *         the local repository
 	 * @throws IllegalStateException if the artifact does not exist or the
 	 *                               resolution fails
