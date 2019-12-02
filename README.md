@@ -1,4 +1,4 @@
-# spring-boot-starter-maven-client
+# maven-client-spring-boot-starter
 Spring Boot Starter For Maven Client
 
 ### 说明
@@ -10,7 +10,7 @@ Spring Boot Starter For Maven Client
 ``` xml
 <dependency>
 	<groupId>${project.groupId}</groupId>
-	<artifactId>spring-boot-starter-maven-client</artifactId>
+	<artifactId>maven-client-spring-boot-starter</artifactId>
 	<version>${project.version}</version>
 </dependency>
 ```
