@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, vindell (https://github.com/vindell).
+ * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -91,7 +91,7 @@ import com.google.common.collect.Iterables;
  * 	<p>4、从远程仓库下载构件</p>
  * 	<p>5、安装指定构件到本地仓库</p>
  * 	<p>6、发布本地构件到远程仓库</p>
- * @author ： <a href="https://github.com/vindell">vindell</a>
+ * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 public class MavenClientTemplate {
 
@@ -184,7 +184,7 @@ public class MavenClientTemplate {
 	/**
 	 * get ArtifactResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
@@ -201,7 +201,7 @@ public class MavenClientTemplate {
 	/**
 	 * get ArtifactResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -220,7 +220,7 @@ public class MavenClientTemplate {
 	/**
 	 * get ArtifactResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -240,7 +240,7 @@ public class MavenClientTemplate {
 	/**
 	 * get ArtifactResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -262,7 +262,7 @@ public class MavenClientTemplate {
 	/**
 	 * get ArtifactResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param resource the {@link MavenResource} representing the artifact
 	 * @return a {@link ArtifactResult} representing the resolved artifact in the
 	 *         local repository
@@ -301,7 +301,7 @@ public class MavenClientTemplate {
 	/**
 	 * get MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
@@ -317,7 +317,7 @@ public class MavenClientTemplate {
 	/**
 	 * get MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -336,7 +336,7 @@ public class MavenClientTemplate {
 	/**
 	 * get MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -356,7 +356,7 @@ public class MavenClientTemplate {
 	/**
 	 * get MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -432,7 +432,7 @@ public class MavenClientTemplate {
 	/**
 	 * get DependencyResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
@@ -449,7 +449,7 @@ public class MavenClientTemplate {
 	/**
 	 * get DependencyResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -468,7 +468,7 @@ public class MavenClientTemplate {
 	/**
 	 * get DependencyResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -488,7 +488,7 @@ public class MavenClientTemplate {
 	/**
 	 * get DependencyResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -510,7 +510,7 @@ public class MavenClientTemplate {
 	/**
 	 * get DependencyResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param resource the {@link MavenResource} representing the artifact
 	 * @return a {@link DependencyResult} representing the resolved artifact in the
 	 *         local repository
@@ -553,7 +553,7 @@ public class MavenClientTemplate {
 	/**
 	 * get  MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
@@ -570,7 +570,7 @@ public class MavenClientTemplate {
 	/**
 	 * get  MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -589,7 +589,7 @@ public class MavenClientTemplate {
 	/**
 	 * get  MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -609,7 +609,7 @@ public class MavenClientTemplate {
 	/**
 	 * get  MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -631,7 +631,7 @@ public class MavenClientTemplate {
 	/**
 	 * get MetadataResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param resource the {@link MavenResource} representing the artifact
 	 * @return a {@link MetadataResult} representing the resolved artifact in
 	 *         the local repository
@@ -675,7 +675,7 @@ public class MavenClientTemplate {
 	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
@@ -695,7 +695,7 @@ public class MavenClientTemplate {
 	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -718,7 +718,7 @@ public class MavenClientTemplate {
 	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -742,7 +742,7 @@ public class MavenClientTemplate {
 	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -826,7 +826,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
@@ -843,7 +843,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -862,7 +862,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -882,7 +882,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -904,7 +904,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param resource the {@link MavenResource} representing the artifact
 	 * @return a {@link VersionResult} representing the resolved artifact in the
 	 *         local repository
@@ -943,7 +943,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionRangeResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
 	 *                    must not be {@code null}.
@@ -960,7 +960,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionRangeResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -979,7 +979,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionRangeResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -999,7 +999,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionRangeResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
 	 *                   {@code null}.
@@ -1021,7 +1021,7 @@ public class MavenClientTemplate {
 	/**
 	 * get VersionRangeResult
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param resource the {@link MavenResource} representing the artifact
 	 * @return a {@link VersionRangeResult} representing the resolved artifact in
 	 *         the local repository
@@ -1063,7 +1063,7 @@ public class MavenClientTemplate {
 	/**
 	 * get last version
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param resource the {@link MavenResource} representing the artifact
 	 * @return a {@link Version} representing the resolved artifact in the local
 	 *         repository
@@ -1087,7 +1087,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path        The file to install.
 	 * @param coordinates The artifact coordinates in the format
 	 *                    {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
@@ -1105,7 +1105,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path       The file to install.
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
@@ -1126,7 +1126,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path       The file to install.
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
@@ -1148,7 +1148,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path       The file to install.
 	 * @param groupId    The group identifier of the artifact, may be {@code null}.
 	 * @param artifactId The artifact identifier of the artifact, may be
@@ -1171,7 +1171,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path     The file to install.
 	 * @param resource the {@link MavenResource} representing the artifact
 	 * @return a {@link InstallResult} representing the installed artifact in the
@@ -1190,7 +1190,7 @@ public class MavenClientTemplate {
 	/**
 	 * install artifacts to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param artifacts The artifact to install.
 	 * @return a {@link InstallResult} representing the installed artifact in the
 	 *         local repository
@@ -1212,7 +1212,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path         The file to install.
 	 * @param coordinates  The artifact coordinates in the format
 	 *                     {@code <groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>},
@@ -1238,7 +1238,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path         The file to install.
 	 * @param groupId      The group identifier of the artifact, may be
 	 *                     {@code null}.
@@ -1265,7 +1265,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path         The file to install.
 	 * @param groupId      The group identifier of the artifact, may be
 	 *                     {@code null}.
@@ -1293,7 +1293,7 @@ public class MavenClientTemplate {
 	/**
 	 * install file to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param path         The file to install.
 	 * @param groupId      The group identifier of the artifact, may be
 	 *                     {@code null}.
@@ -1322,7 +1322,7 @@ public class MavenClientTemplate {
 	/**
 	 * install artifacts to maven repository
 	 * 
-	 * @author ： <a href="https://github.com/vindell">vindell</a>
+	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @param repository The repository to deploy.
 	 * @param artifacts  The artifact to install.
 	 * @return a {@link DeployResult} representing the deployed artifact in the
