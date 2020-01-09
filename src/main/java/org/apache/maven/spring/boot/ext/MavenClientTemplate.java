@@ -81,7 +81,7 @@ import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Iterables;
 
-/**
+/*
  * 	
  * 	<b>基于maven-aether-provider的Maven Client实现，不依赖于本机的Maven环境即可实现Maven组件相关操作：</b>
  * 	<p>支持操作：</p>

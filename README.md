@@ -9,7 +9,7 @@ Spring Boot Starter For Maven Client
 
 ``` xml
 <dependency>
-	<groupId>${project.groupId}</groupId>
+	<groupId>com.github.hiwepy</groupId>
 	<artifactId>maven-client-spring-boot-starter</artifactId>
 	<version>${project.version}</version>
 </dependency>
