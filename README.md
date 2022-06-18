@@ -11,7 +11,7 @@ Spring Boot Starter For Maven Client
 <dependency>
 	<groupId>com.github.hiwepy</groupId>
 	<artifactId>maven-client-spring-boot-starter</artifactId>
-	<version>${project.version}</version>
+	<version>2.0.0.RELEASE</version>
 </dependency>
 ```
 
