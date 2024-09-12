@@ -37,7 +37,6 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.spring.boot.MavenClientProperties;
 import org.apache.maven.spring.boot.utils.ArtifactUtils;
 import org.apache.maven.spring.boot.utils.RepositorySystemUtils;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.AbstractArtifact;
@@ -77,9 +76,8 @@ import org.springframework.cloud.deployer.resource.maven.MavenResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import com.google.common.collect.Iterables;
 
 /*
  * 	
@@ -652,7 +650,7 @@ public class MavenClientTemplate {
 		return this.repositorySystem.resolveMetadata(session, requests);
 	}
 
-	public Model resolve(File file) throws XmlPullParserException, IOException {
+	public Model resolve(File file) throws IOException {
 		try (ZipFile zipFile = new ZipFile(file)) {
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
@@ -1081,7 +1079,7 @@ public class MavenClientTemplate {
 
 		Collections.sort(versions);
 
-		return Iterables.getLast(versions);
+		return CollectionUtils.lastElement(versions);
 	}
 
 	/**

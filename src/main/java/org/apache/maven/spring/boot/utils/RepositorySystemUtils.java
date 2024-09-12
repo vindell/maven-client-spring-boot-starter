@@ -25,7 +25,7 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.connector.basic.BasicRepositoryConnectorFactory;
 import org.eclipse.aether.graph.Dependency;
-import org.eclipse.aether.impl.DefaultServiceLocator;
+import org.eclipse.aether.internal.impl.DefaultRepositorySystem;
 import org.eclipse.aether.repository.Authentication;
 import org.eclipse.aether.repository.AuthenticationContext;
 import org.eclipse.aether.repository.AuthenticationDigest;
@@ -138,25 +138,10 @@ public class RepositorySystemUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static RepositorySystem newRepositorySystem() {
-		
-		DefaultServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
-		locator.addService(RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class);
-		locator.addService(TransporterFactory.class, FileTransporterFactory.class);
-		locator.addService(TransporterFactory.class, HttpTransporterFactory.class);
-		try {
-			Class<TransporterFactory> wagonTransporterFactory = (Class<TransporterFactory>) Class
-					.forName("org.eclipse.aether.transport.wagon.WagonTransporterFactory");
-			locator.addService(TransporterFactory.class, wagonTransporterFactory);
-		} catch (Exception e) {
-			// ignore
-		}
-		locator.setErrorHandler(new DefaultServiceLocator.ErrorHandler() {
-			@Override
-			public void serviceCreationFailed(Class<?> type, Class<?> impl, Throwable exception) {
-				throw new RuntimeException(exception);
-			}
-		});
-		return locator.getService(RepositorySystem.class);
+
+		RepositorySystem locator =  new DefaultRepositorySystem();
+
+
 	}
 	
 	public static Dependency createDependencyRoot(MavenResource resource) {
