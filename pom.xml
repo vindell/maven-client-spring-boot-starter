@@ -365,7 +365,8 @@
 		<plexus-xml.version>4.0.4</plexus-xml.version>
 		<aether.version>1.0.2.v20150114</aether.version>
 		<commons-io.version>2.16.1</commons-io.version>
-		<maven.version>3.9.9</maven.version>
+		<maven.version>3.6.3</maven.version>
+		<maven-model.version>3.9.9</maven-model.version>
 		<maven-aether.version>3.3.9</maven-aether.version>
 		<maven-resolver.version>2.0.1</maven-resolver.version>
 		<maven-wagon.version>3.5.3</maven-wagon.version>
@@ -401,13 +402,13 @@
 			<dependency>
 				<groupId>org.apache.maven</groupId>
 				<artifactId>maven-model-builder</artifactId>
-				<version>${maven.version}</version>
+				<version>${maven-model.version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-resolver-provider -->
 			<dependency>
 				<groupId>org.apache.maven</groupId>
 				<artifactId>maven-resolver-provider</artifactId>
-				<version>${maven.version}</version>
+				<version>${maven-model.version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.maven.resolver/maven-resolver-api -->
 			<dependency>
