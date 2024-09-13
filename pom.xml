@@ -361,6 +361,7 @@
 		<!-- Dependency versions -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<plexus-utils.version>4.0.1</plexus-utils.version>
 		<aether.version>1.0.2.v20150114</aether.version>
 		<commons-io.version>2.16.1</commons-io.version>
 		<maven.version>3.9.9</maven.version>
@@ -387,7 +388,7 @@
 			<dependency>
 				<groupId>org.codehaus.plexus</groupId>
 				<artifactId>plexus-utils</artifactId>
-				<version>4.0.1</version>
+				<version>${plexus-utils.version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-model-builder -->
 			<dependency>
