@@ -37,6 +37,7 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.spring.boot.MavenClientProperties;
 import org.apache.maven.spring.boot.utils.ArtifactUtils;
 import org.apache.maven.spring.boot.utils.RepositorySystemUtils;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.AbstractArtifact;
@@ -176,7 +177,8 @@ public class MavenClientTemplate {
 			this.remoteRepositoriesMap.put(entry.getKey(), repository);
 			this.remoteRepositories.add(repository);
 		}
-		this.repositorySystem = RepositorySystemUtils.newRepositorySystem();
+
+		this.repositorySystem = null;// RepositorySystemUtils.newRepositorySystem();
 	}
 
 	/**
@@ -377,7 +379,7 @@ public class MavenClientTemplate {
 	 * Resolve an artifact and return its location in the local repository. Aether
 	 * performs the normal Maven resolution process ensuring that the latest update
 	 * is cached to the local repository. In addition, if the
-	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
+	 * {@link MavenProperties} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
 	 * @param resource the {@link MavenResource} representing the artifact
@@ -650,7 +652,7 @@ public class MavenClientTemplate {
 		return this.repositorySystem.resolveMetadata(session, requests);
 	}
 
-	public Model resolve(File file) throws IOException {
+	public Model resolve(File file) throws XmlPullParserException, IOException {
 		try (ZipFile zipFile = new ZipFile(file)) {
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
@@ -670,7 +672,7 @@ public class MavenClientTemplate {
 	 * Resolve an artifact and return its location in the local repository. Aether
 	 * performs the normal Maven resolution process ensuring that the latest update
 	 * is cached to the local repository. In addition, if the
-	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
+	 * {@link MavenProperties} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
 	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
@@ -690,7 +692,7 @@ public class MavenClientTemplate {
 	 * Resolve an artifact and return its location in the local repository. Aether
 	 * performs the normal Maven resolution process ensuring that the latest update
 	 * is cached to the local repository. In addition, if the
-	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
+	 * {@link MavenProperties} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
 	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
@@ -713,7 +715,7 @@ public class MavenClientTemplate {
 	 * Resolve an artifact and return its location in the local repository. Aether
 	 * performs the normal Maven resolution process ensuring that the latest update
 	 * is cached to the local repository. In addition, if the
-	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
+	 * {@link MavenProperties} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
 	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
@@ -737,7 +739,7 @@ public class MavenClientTemplate {
 	 * Resolve an artifact and return its location in the local repository. Aether
 	 * performs the normal Maven resolution process ensuring that the latest update
 	 * is cached to the local repository. In addition, if the
-	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
+	 * {@link MavenProperties} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
 	 * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
@@ -762,7 +764,7 @@ public class MavenClientTemplate {
 	 * Resolve an artifact and return its location in the local repository. Aether
 	 * performs the normal Maven resolution process ensuring that the latest update
 	 * is cached to the local repository. In addition, if the
-	 * {@link MavenProperties#resolvePom} flag is <code>true</code>, the POM is also
+	 * {@link MavenProperties} flag is <code>true</code>, the POM is also
 	 * resolved and cached.
 	 * 
 	 * @param resource the {@link MavenResource} representing the artifact

@@ -25,14 +25,17 @@ import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.connector.basic.BasicRepositoryConnectorFactory;
 import org.eclipse.aether.graph.Dependency;
+import org.eclipse.aether.impl.*;
 import org.eclipse.aether.internal.impl.DefaultRepositorySystem;
 import org.eclipse.aether.repository.Authentication;
 import org.eclipse.aether.repository.AuthenticationContext;
 import org.eclipse.aether.repository.AuthenticationDigest;
 import org.eclipse.aether.repository.LocalRepository;
 import org.eclipse.aether.repository.Proxy;
+import org.eclipse.aether.spi.artifact.decorator.ArtifactDecoratorFactory;
 import org.eclipse.aether.spi.connector.RepositoryConnectorFactory;
 import org.eclipse.aether.spi.connector.transport.TransporterFactory;
+import org.eclipse.aether.spi.synccontext.SyncContextFactory;
 import org.eclipse.aether.transport.file.FileTransporterFactory;
 import org.eclipse.aether.transport.http.HttpTransporterFactory;
 import org.eclipse.aether.util.repository.DefaultProxySelector;
@@ -131,19 +134,6 @@ public class RepositorySystemUtils {
 	}
 
 
-	/*
-	 * Aether's components implement {@link org.eclipse.aether.spi.locator.Service} to ease manual wiring.
-	 * Using the prepopulated {@link DefaultServiceLocator}, we need to register the repository connector
-	 * and transporter factories
-	 */
-	@SuppressWarnings("unchecked")
-	public static RepositorySystem newRepositorySystem() {
-
-		RepositorySystem locator =  new DefaultRepositorySystem();
-
-
-	}
-	
 	public static Dependency createDependencyRoot(MavenResource resource) {
         Artifact artifact = null;
         if (resource.getClassifier() == null) {

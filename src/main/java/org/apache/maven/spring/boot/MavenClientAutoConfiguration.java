@@ -23,7 +23,7 @@ public class MavenClientAutoConfiguration {
 	@Bean
 	@ConfigurationProperties("maven.settings.remote-repositories")
 	public  Map<String, RemoteRepository> remoteRepositories(){
-		 return new HashMap<String, RemoteRepository>();
+		 return new HashMap<>();
 	};
 	
 	
